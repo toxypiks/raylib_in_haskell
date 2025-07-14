@@ -1,6 +1,7 @@
 {-# LANGUAGE CApiFFI #-}
 
 import Data.Function
+import Data.IORef
 import Control.Monad
 import Foreign.C.Types
 import Foreign.C.String
@@ -28,8 +29,12 @@ main = do
   title <- newCString "Hello from Suskell"
   initWindow 800 600 title
   setTargetFPS 60
+  -- IORef is a mutable variable in the IO monad
+  position <- newIORef (0, 0)
   while ((/= 0) <$> windowShouldClose) $ do
     beginDrawing
-    drawRectangle 0 0 100 100 0xFF1818FF
+    (x, y) <- readIORef position
+    writeIORef position (x + 1, y + 1)
+    drawRectangle x y 100 100 0xFF1818FF
     endDrawing
   closeWindow
