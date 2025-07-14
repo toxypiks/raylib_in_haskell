@@ -1024,7 +1024,7 @@ RLAPI void DisableCursor(void);                                   // Disables cu
 RLAPI bool IsCursorOnScreen(void);                                // Check if cursor is on the screen
 
 // Drawing-related functions
-RLAPI void ClearBackground(Color color);                          // Set background color (framebuffer clear color)
+RLAPI void ClearBackground(unsigned int color);                          // Set background color (framebuffer clear color)
 RLAPI void BeginDrawing(void);                                    // Setup canvas (framebuffer) to start drawing
 RLAPI void EndDrawing(void);                                      // End canvas drawing and swap buffers (double buffering)
 RLAPI void BeginMode2D(Camera2D camera);                          // Begin 2D mode with custom camera (2D)

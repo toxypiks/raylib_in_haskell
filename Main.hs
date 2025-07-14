@@ -12,6 +12,7 @@ data Color = Color { r :: CUChar, g :: CUChar, b :: CUChar, a :: CUChar}
 foreign import capi "raylib.h InitWindow" initWindow :: CInt -> CInt -> CString -> IO ()
 foreign import capi "raylib.h WindowShouldClose" windowShouldClose :: IO CBool
 foreign import capi "raylib.h CloseWindow" closeWindow :: IO ()
+foreign import capi "raylib.h ClearBackground" clearBackground :: CUInt -> IO ()
 foreign import capi "raylib.h BeginDrawing" beginDrawing :: IO ()
 foreign import capi "raylib.h EndDrawing" endDrawing :: IO ()
 foreign import capi "raylib.h SetTargetFPS" setTargetFPS :: CInt -> IO ()
@@ -26,13 +27,14 @@ while cond body = do
 
 main :: IO ()
 main = do
-  title <- newCString "Hello from Suskell"
+  title <- newCString "Hello from Haskell"
   initWindow 800 600 title
   setTargetFPS 60
   -- IORef is a mutable variable in the IO monad
   position <- newIORef (0, 0)
   while ((/= 0) <$> windowShouldClose) $ do
     beginDrawing
+    clearBackground 0xFF181818
     (x, y) <- readIORef position
     writeIORef position (x + 1, y + 1)
     drawRectangle x y 100 100 0xFF1818FF
