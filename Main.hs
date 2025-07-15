@@ -31,7 +31,9 @@ newGame :: Game
 newGame = Game { gamePosition = (0, 0) }
 
 updateGame :: Game -> Game
-updateGame = id
+updateGame game = game'
+  where game'   = Game { gamePosition = (x + 1, y + 1) }
+        (x, y) =  gamePosition game
 
 renderGame :: Game -> IO ()
 renderGame game = do
