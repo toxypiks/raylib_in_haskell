@@ -25,18 +25,31 @@ while cond body = do
   else do body
           while cond body
 
+data Game = Game { gamePosition :: (CInt, CInt) }
+
+newGame :: Game
+newGame = Game { gamePosition = (0, 0) }
+
+updateGame :: Game -> Game
+updateGame = id
+
+renderGame :: Game -> IO ()
+renderGame game = do
+  let (x, y) = gamePosition game
+  drawRectangle x y 100 100 0xFF1818FF
+
 main :: IO ()
 main = do
   title <- newCString "Hello from Haskell"
   initWindow 800 600 title
   setTargetFPS 60
   -- IORef is a mutable variable in the IO monad
-  position <- newIORef (0, 0)
+  gameIORef <- newIORef newGame
   while ((/= 0) <$> windowShouldClose) $ do
     beginDrawing
     clearBackground 0xFF181818
-    (x, y) <- readIORef position
-    writeIORef position (x + 1, y + 1)
-    drawRectangle x y 100 100 0xFF1818FF
+    game <- readIORef gameIORef
+    renderGame game
+    writeIORef gameIORef $ updateGame game
     endDrawing
   closeWindow
